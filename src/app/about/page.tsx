@@ -1,290 +1,219 @@
-'use client';
-
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
-const values = [
-  {
-    title: "Excellence",
-    description: "We maintain the highest standards in dental care, utilizing state-of-the-art technology and advanced techniques.",
-    icon: "/assets/icons/excellence.svg"
-  },
-  {
-    title: "Luxury Experience",
-    description: "Every detail of your visit is crafted to provide an unparalleled level of comfort and sophistication.",
-    icon: "/assets/icons/luxury.svg"
-  },
-  {
-    title: "Patient-Focused",
-    description: "Your unique needs and desires are at the center of our personalized treatment approach.",
-    icon: "/assets/icons/patient.svg"
-  },
-  {
-    title: "Innovation",
-    description: "We continuously invest in the latest dental technologies to ensure optimal treatment outcomes.",
-    icon: "/assets/icons/innovation.svg"
-  }
-];
+import { CtaBand } from "@/components/home/CtaBand";
+import {
+  MediaPlaceholder,
+  PlaceholderBadge,
+  SectionHeading,
+  ValueList,
+} from "@/components/ui/primitives";
+import { doctor } from "@/content/media";
+import { aboutContent, doctorProfile, facilityContent, values } from "@/content/sections";
+import { clinic, scheduleConfirmed } from "@/content/site";
 
-const team = [
-  {
-    name: "Dr. Sarah Mitchell",
-    role: "Lead Cosmetic Dentist",
-    description: "With over 15 years of experience in cosmetic dentistry, Dr. Mitchell leads our team with expertise in smile transformations.",
-    image: "/assets/images/team/dr-mitchell.jpg",
-    credentials: "DDS, AAACD"
-  },
-  {
-    name: "Dr. James Chen",
-    role: "Implant Specialist",
-    description: "A renowned expert in dental implants and reconstructive dentistry with numerous international certifications.",
-    image: "/assets/images/team/dr-chen.jpg",
-    credentials: "DMD, PhD"
-  },
-  {
-    name: "Dr. Emily Parker",
-    role: "Orthodontist",
-    description: "Specializing in creating beautiful smiles through innovative orthodontic treatments and Invisalign.",
-    image: "/assets/images/team/dr-parker.jpg",
-    credentials: "DDS, MS"
-  }
-];
+export const metadata: Metadata = {
+  title: "About the practice",
+  description:
+    "About Dr. Bouamara Dental Clinic: how the practice works, what patients can expect, and the standards behind each appointment.",
+  alternates: { canonical: "/about" },
+};
 
-export default function About() {
+export default function AboutPage() {
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative min-h-[60vh] bg-black flex items-center">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/images/about-hero.jpg"
-            alt="WhitePearl Dental Clinic"
-            fill
-            className="object-cover opacity-50"
-            priority
-          />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl"
-          >
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-              Excellence in
-              <span className="block">Dental Care</span>
-            </h1>
-            <p className="font-body text-lg text-white mb-8 leading-relaxed">
-              At WhitePearl, we combine artistry with advanced dentistry to deliver exceptional care in a luxurious environment.
-            </p>
-          </motion.div>
+      {/* ── Hero: the doctor ─────────────────────────────────────────────── */}
+      <section className="bg-ink-900 py-16 text-white sm:py-20">
+        <div className="container-x grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <SectionHeading
+              tone="dark"
+              as="h1"
+              eyebrow={aboutContent.eyebrow}
+              title={aboutContent.title}
+              description={aboutContent.intro}
+            />
+
+            {scheduleConfirmed && (
+              <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 font-ui text-xs uppercase tracking-[0.18em] text-white/75">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold" />
+                Open 24 hours, 7 days a week
+              </p>
+            )}
+          </div>
+
+          {/* Portrait of Dr. Bouamara — replaceable in src/content/media.ts */}
+          <figure className="relative mx-auto w-full max-w-md">
+            <MediaPlaceholder
+              src={doctor.portrait.src}
+              alt={doctor.portrait.alt}
+              label={doctorProfile.name}
+              caption="Portrait pending"
+              icon="◍"
+              priority
+              className="aspect-4/5 w-full rounded-card border border-white/12"
+              imageClassName="object-top"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+            />
+            <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <span>
+                <span className="block font-heading text-lg text-white">{doctorProfile.name}</span>
+                <span className="font-ui text-xs uppercase tracking-[0.2em] text-gold/90">
+                  {doctorProfile.role}
+                </span>
+              </span>
+              {!doctor.portrait.src && <PlaceholderBadge label="Photograph pending" />}
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* History Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="font-heading text-3xl lg:text-4xl text-black mb-6">Our Legacy of Excellence</h2>
-              <div className="space-y-6">
-                <p className="font-body text-black">
-                  Founded in 2008, WhitePearl Dental Clinic has established itself as Beverly Hills&apos; premier destination for luxury dental care. Our journey began with a vision to transform the dental experience into something extraordinary.
-                </p>
-                <p className="font-body text-black">
-                  Over the years, we&apos;ve consistently invested in cutting-edge technology and assembled a team of world-class professionals, setting new standards in dental excellence.
-                </p>
-                <p className="font-body text-black">
-                  Today, we&apos;re proud to be recognized as a leader in cosmetic and restorative dentistry, serving clients who expect nothing but the best.
-                </p>
+      {/* ── At a glance (confirmed facts only) ───────────────────────────── */}
+      <section className="bg-cream-100 py-14">
+        <div className="container-x">
+          <dl className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: "Practice", value: clinic.name },
+              { label: "Location", value: clinic.contact.addressLine },
+              { label: "Languages", value: clinic.languages.join(" · ") },
+              {
+                label: "Opening hours",
+                value: scheduleConfirmed ? "24 hours, every day" : "Being confirmed",
+              },
+            ].map((item) => (
+              <div key={item.label} className="border-t border-ink-900/12 pt-5">
+                <dt className="font-ui text-[0.6875rem] uppercase tracking-[0.22em] text-ink-500">
+                  {item.label}
+                </dt>
+                <dd className="mt-2 font-heading text-xl text-ink-900">{item.value}</dd>
               </div>
-            </motion.div>
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative h-[600px] rounded-lg overflow-hidden"
-            >
-              <Image
-                src="/assets/images/clinic-exterior.jpg"
-                alt="WhitePearl Dental Clinic Exterior"
-                fill
-                className="object-cover"
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ── The practice narrative ───────────────────────────────────────── */}
+      <section className="section bg-white">
+        <div className="container-x grid gap-12 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <SectionHeading eyebrow="The practice" title="How we work" />
+            <div className="mt-6 space-y-5">
+              {aboutContent.placeholderParagraphs.map((paragraph) => (
+                <p key={paragraph} className="font-body text-base leading-relaxed text-ink-600">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            {aboutContent.isPlaceholder && (
+              <PlaceholderBadge className="mt-6" label="Narrative copy pending" />
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-card border border-ink-900/10 bg-cream-50 p-7">
+              <h3 className="font-heading text-xl text-ink-900">What to expect at a visit</h3>
+              <ValueList
+                className="mt-4"
+                items={[
+                  "A discussion of your concerns before any examination",
+                  "An examination, with imaging only where clinically indicated",
+                  "Findings explained in plain language, with alternatives",
+                  "A written plan you can take away and consider",
+                ]}
               />
-            </motion.div>
+            </div>
+
+            <div className="rounded-card border border-gold-ink/25 bg-gold-ink/[0.04] p-7">
+              <h3 className="font-heading text-xl text-ink-900">Treatment rooms &amp; environment</h3>
+              <p className="mt-3 font-body text-sm leading-relaxed text-ink-600">
+                {facilityContent.body}
+              </p>
+              <Link
+                href="/gallery"
+                className="mt-4 inline-flex font-ui text-xs font-semibold uppercase tracking-eyebrow text-gold-ink transition hover:text-ink-900"
+              >
+                See the gallery →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-3xl lg:text-4xl text-white mb-6">Our Core Values</h2>
-            <p className="font-body text-lg text-white max-w-2xl mx-auto">
-              These principles guide every aspect of our practice, ensuring we deliver the highest standard of care.
+      {/* ── Values ───────────────────────────────────────────────────────── */}
+      <section className="section bg-cream-100">
+        <div className="container-x">
+          <SectionHeading
+            align="center"
+            eyebrow="Principles"
+            title="What guides the practice"
+            description="These are the commitments the site is built around. The clinic should confirm or amend them before launch."
+          />
+
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value) => (
+              <li key={value.id} className="card p-7">
+                <span aria-hidden="true" className="font-heading text-2xl text-gold-ink">
+                  ◈
+                </span>
+                <h3 className="mt-4 font-heading text-xl text-ink-900">{value.title}</h3>
+                <p className="mt-3 font-body text-sm leading-relaxed text-ink-600">
+                  {value.description}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Practitioner ─────────────────────────────────────────────────── */}
+      <section className="section bg-white">
+        <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+          <MediaPlaceholder
+            src={doctor.secondary.src}
+            alt={doctor.secondary.alt}
+            label={doctorProfile.name}
+            caption={doctorProfile.name}
+            icon="◍"
+            className="aspect-4/5 w-full rounded-card border border-ink-900/10"
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            imageClassName="object-cover"
+          />
+
+          <div>
+            <SectionHeading
+              eyebrow="The practitioner"
+              title={doctorProfile.name}
+              description={doctorProfile.role}
+            />
+
+            <p className="mt-6 font-body text-base leading-relaxed text-ink-600">
+              {doctorProfile.bio ??
+                "A short biography — training, areas of interest and years in practice — will be published here once the clinic has supplied and approved the exact wording."}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              {doctorProfile.credentials ? (
+                <span className="rounded-full border border-ink-900/12 px-4 py-2 font-ui text-xs uppercase tracking-[0.16em] text-ink-600">
+                  {doctorProfile.credentials}
+                </span>
+              ) : (
+                <PlaceholderBadge label="Qualifications & credentials pending" />
+              )}
+            </div>
+
+            <p className="mt-6 max-w-prose font-body text-xs leading-relaxed text-ink-500">
+              The practice publishes no invented awards, statistics or accreditations. Verified
+              details are added only once the clinic provides them.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white p-8 rounded-lg text-center"
-              >
-                <div className="w-16 h-16 mx-auto mb-6">
-                  <Image
-                    src={value.icon}
-                    alt={value.title}
-                    width={64}
-                    height={64}
-                  />
-                </div>
-                <h3 className="font-heading text-xl text-black mb-4">{value.title}</h3>
-                <p className="font-body text-black">{value.description}</p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-3xl lg:text-4xl text-black mb-6">Meet Our Expert Team</h2>
-            <p className="font-body text-lg text-black max-w-2xl mx-auto">
-              Our team of highly skilled professionals is committed to providing you with exceptional care.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {team.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white border border-primary-gold rounded-lg overflow-hidden group"
-              >
-                <div className="relative h-80 overflow-hidden">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-8">
-                  <h3 className="font-heading text-2xl text-black mb-2">{member.name}</h3>
-                  <p className="font-ui text-primary-gold mb-2">{member.role}</p>
-                  <p className="font-ui text-black text-sm mb-4">{member.credentials}</p>
-                  <p className="font-body text-black">{member.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Facility Section */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="font-heading text-3xl lg:text-4xl text-white mb-6">State-of-the-Art Facility</h2>
-              <div className="space-y-6">
-                <p className="font-body text-white">
-                  Our clinic is equipped with the latest dental technology and designed to provide a comfortable, luxurious experience. From our elegant reception area to our advanced treatment rooms, every space is crafted with your comfort in mind.
-                </p>
-                <p className="font-body text-white">
-                  We maintain the highest standards of sterilization and safety, ensuring a pristine environment for every procedure.
-                </p>
-                <Link 
-                  href="/gallery"
-                  className="inline-block bg-primary-gold hover:bg-primary-gold text-black font-ui text-sm tracking-wide px-8 py-4 rounded-full transition-all duration-300 mt-4"
-                >
-                  View Our Gallery
-                </Link>
-              </div>
-            </motion.div>
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-2 gap-4"
-            >
-              <div className="relative h-48 rounded-lg overflow-hidden">
-                <Image
-                  src="/assets/images/facility-1.jpg"
-                  alt="Reception Area"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative h-48 rounded-lg overflow-hidden">
-                <Image
-                  src="/assets/images/facility-2.jpg"
-                  alt="Treatment Room"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative h-48 rounded-lg overflow-hidden">
-                <Image
-                  src="/assets/images/facility-3.jpg"
-                  alt="Advanced Equipment"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative h-48 rounded-lg overflow-hidden">
-                <Image
-                  src="/assets/images/facility-4.jpg"
-                  alt="Consultation Room"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl lg:text-4xl text-black mb-6">
-            Experience the WhitePearl Difference
-          </h2>
-          <p className="font-body text-lg text-black mb-8 max-w-2xl mx-auto">
-            Join us for a consultation and discover why we&apos;re Beverly Hills&apos; premier choice for luxury dental care.
-          </p>
-          <Link 
-            href="/appointment"
-            className="inline-block bg-black hover:bg-black text-white font-ui text-sm tracking-wide px-12 py-4 rounded-full transition-all duration-300"
-          >
-            Schedule Your Visit
-          </Link>
-        </div>
-      </section>
+      <CtaBand
+        title="Questions before your first visit?"
+        description="Send the clinic a message, or request an appointment and ask at your consultation."
+        primaryLabel="Request an appointment"
+      />
     </main>
   );
-} 
+}

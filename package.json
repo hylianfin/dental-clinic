@@ -1,32 +1,43 @@
 {
-  "name": "dental-clinic",
+  "name": "bouamara-dental-clinic",
   "version": "0.1.0",
   "private": true,
+  "description": "Website and admin dashboard for Dr. Bouamara Dental Clinic.",
+  "engines": {
+    "node": ">=20.11"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint",
+    "db:seed-hint": "echo \"Run the SQL files in ./supabase/migrations inside the Supabase SQL editor.\"",
+    "media:setup": "node scripts/media-setup.mjs"
   },
   "dependencies": {
-    "@fontsource/cormorant-garamond": "^5.1.1",
-    "@fontsource/montserrat": "^5.1.1",
-    "@fontsource/nunito": "^5.1.1",
-    "framer-motion": "^12.4.7",
-    "next": "15.1.7",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.3",
+    "framer-motion": "^12.43.0",
+    "next": "15.5.27",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-icons": "^5.7.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9",
-    "eslint-config-next": "15.1.7",
+    "eslint-config-next": "15.5.27",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.19",
     "typescript": "^5"
   }
 }

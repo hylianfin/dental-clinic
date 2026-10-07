@@ -1,21 +1,216 @@
+/* ------------------------------------------------------------------ *
+ * Self-hosted fonts (no network fetch at build or runtime).
+ * Weight files are Latin-only to keep the payload small; add e.g.
+ * `montserrat/arabic-400.css` here if an Arabic locale is introduced.
+ * ------------------------------------------------------------------ */
+@import "@fontsource/cormorant-garamond/latin-400.css";
+@import "@fontsource/cormorant-garamond/latin-500.css";
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "@fontsource/cormorant-garamond/latin-400-italic.css";
+@import "@fontsource/montserrat/latin-400.css";
+@import "@fontsource/montserrat/latin-500.css";
+@import "@fontsource/montserrat/latin-600.css";
+@import "@fontsource/montserrat/latin-700.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Mirrors tailwind.config.ts so raw CSS can reuse the tokens. */
+    --ink: #0b2342;
+    --brand: #1a5788;
+    --gold: #c2a06b;
+    --gold-ink: #8a6d3a;
+    --cream: #fafaf8;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Offset for the sticky header when jumping to #anchors. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    @apply bg-cream-100 text-ink-900 font-body antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading text-ink-900;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-600 ring-offset-2 ring-offset-cream-100 rounded-sm;
+  }
+
+  ::selection {
+    @apply bg-brand-600 text-white;
+  }
+
+  /* Skip link — visually hidden until focused. */
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus {
+    @apply not-sr-only fixed left-4 top-4 z-[100] rounded-md bg-ink-900 px-4 py-2 text-sm font-medium text-white shadow-lift;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Consistent horizontal rhythm for every section. */
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-section;
+  }
+
+  /* Small uppercase label above headings. */
+  .eyebrow {
+    @apply font-ui text-[0.6875rem] font-semibold uppercase tracking-eyebrow text-gold-ink;
+  }
+
+  .eyebrow-on-dark {
+    @apply font-ui text-[0.6875rem] font-semibold uppercase tracking-eyebrow text-gold;
+  }
+
+  .heading-display {
+    @apply font-heading font-normal text-display-sm sm:text-display-md lg:text-display-lg;
+  }
+
+  /* Buttons ------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-7 py-3.5
+           font-ui text-sm font-medium tracking-wide transition-all duration-300
+           ease-premium focus-visible:ring-offset-2 disabled:cursor-not-allowed
+           disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-700 text-white hover:bg-brand-800 hover:shadow-card active:scale-[0.99];
+  }
+
+  .btn-gold {
+    @apply btn bg-gold text-ink-900 hover:bg-gold-soft hover:shadow-card active:scale-[0.99];
+  }
+
+  .btn-outline {
+    @apply btn border border-ink-900/15 bg-transparent text-ink-900 hover:border-brand-700 hover:text-brand-700;
+  }
+
+  .btn-outline-light {
+    @apply btn border border-white/30 bg-transparent text-white hover:border-gold hover:text-gold;
+  }
+
+  .btn-ghost {
+    @apply btn px-4 text-ink-700 hover:bg-ink-900/5;
+  }
+
+  /* Surfaces ------------------------------------------------------ */
+  .card {
+    @apply rounded-card border border-ink-900/8 bg-white shadow-soft transition-shadow duration-300 ease-premium;
+  }
+
+  .card-interactive {
+    @apply card hover:shadow-card;
+  }
+
+  .card-dark {
+    @apply rounded-card border border-white/10 bg-white/5 backdrop-blur-sm;
+  }
+
+  /* Form controls ------------------------------------------------- */
+  .field {
+    @apply w-full rounded-xl border border-ink-900/15 bg-white px-4 py-3 font-body
+           text-[0.95rem] text-ink-900 placeholder:text-ink-400 transition-shadow
+           duration-200 focus:border-brand-600 focus:outline-none focus:ring-2
+           focus:ring-brand-600/30;
+  }
+
+  .field-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/25;
+  }
+
+  .label {
+    @apply mb-2 block font-ui text-xs font-semibold uppercase tracking-wider text-ink-700;
+  }
+
+  .hint {
+    @apply mt-1.5 font-body text-xs text-ink-500;
+  }
+
+  .error-text {
+    @apply mt-1.5 flex items-start gap-1.5 font-body text-xs font-medium text-red-600;
+  }
+
+  /* Decorative ---------------------------------------------------- */
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent;
+  }
+
+  .gold-text {
+    @apply bg-gradient-to-r from-gold-soft via-gold to-gold-ink bg-clip-text text-transparent;
+  }
+
+  .placeholder-note {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-dashed
+           border-gold-ink/40 bg-gold-ink/5 px-3 py-1 font-ui text-[0.6875rem]
+           font-semibold uppercase tracking-wider text-gold-ink;
+  }
+}
+
+@layer utilities {
+  /* Scroll-triggered reveal that is driven by CSS, not JS, so content is
+     visible for crawlers, no-JS visitors and when JS fails. */
+  .reveal {
+    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .reveal-delay-1 {
+    animation-delay: 80ms;
+  }
+  .reveal-delay-2 {
+    animation-delay: 160ms;
+  }
+  .reveal-delay-3 {
+    animation-delay: 240ms;
+  }
+  .reveal-delay-4 {
+    animation-delay: 320ms;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .noise-overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+    background-size: 3px 3px;
+  }
+}
+
+/* Respect the user's motion preference across the whole site. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

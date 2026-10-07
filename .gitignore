@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# …but the documented template IS committed, so a fresh clone can be configured.
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +41,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local demo data store (appointments / messages)
+/.data
+
+# original clinic photographs (processed into public/media by npm run media:setup)
+/media-source
+
+# throwaway image-search output
+/image-search
